@@ -15,15 +15,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import Entidades.Alumno;
 import Entidades.Curso;
-import Servicios.AlumnoService;
-import Servicios.CursoService;
+import Repositorios.AlumnoRepository;
+import Repositorios.CursoRepository;
 
 @Controller
 @RequestMapping("/alumnos")
 public class AlumnoController {
 
     @Autowired
-    private AlumnoService alumnoRepository;
+    private AlumnoRepository alumnoRepository;
 
     // Endpoint para obtener información de un alumno por su ID
     @GetMapping("/{alumnoId}")

@@ -8,6 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import Entidades.Administrador;
 import Repositorios.AdministradorRepository;
+import Repositorios.AlumnoRepository;
+import Repositorios.CursoRepository;
+import Repositorios.ProfesorRepository;
 
 @Service
 public class AdministradorService {
@@ -16,13 +19,13 @@ public class AdministradorService {
     AdministradorRepository AdministradorRepository;
 
     @Autowired
-    ProfesorService ProfesorService;
+    ProfesorRepository ProfesorService;
 
     @Autowired
-    AlumnoService AlumnoService;
+    AlumnoRepository AlumnoService;
 
     @Autowired
-    CursoService CursoService;
+    CursoRepository CursoService;
 
     @Transactional
     public Administrador guardar(String nombre, String apellido){

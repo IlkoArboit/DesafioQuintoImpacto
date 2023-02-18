@@ -5,7 +5,7 @@
 package Controladores;
 
 import Entidades.Profesor;
-import Servicios.ProfesorService;
+import Repositorios.ProfesorRepository;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/profesores")
 public class ProfesorController {
     @Autowired
-    private ProfesorService ProfesorRepository;
+    private ProfesorRepository ProfesorRepository;
 
     @GetMapping("")
     public List<Profesor> getProfesores() {

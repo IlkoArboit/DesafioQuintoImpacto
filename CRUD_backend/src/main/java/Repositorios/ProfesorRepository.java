@@ -1,4 +1,4 @@
-package Servicios;
+package Repositorios;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +12,7 @@ import Entidades.Curso;
 import Entidades.Profesor;
 
 @Repository
-public interface ProfesorService extends JpaRepository<Profesor, String> {
+public interface ProfesorRepository extends JpaRepository<Profesor, String> {
 
     @Query("SELECT a FROM profesor a WHERE a.id = :id")
     Optional<Profesor> findById(@Param("id") String id);

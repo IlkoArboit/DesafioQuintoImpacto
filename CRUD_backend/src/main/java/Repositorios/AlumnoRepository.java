@@ -1,4 +1,4 @@
-package Servicios;
+package Repositorios;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import Entidades.Alumno;
 
 @Repository
-public interface AlumnoService extends JpaRepository<Alumno, String> {
+public interface AlumnoRepository extends JpaRepository<Alumno, String> {
 
     @Query("SELECT a FROM Alumno a WHERE a.id = :id")
     Optional<Alumno> findById(@Param("id") String id);

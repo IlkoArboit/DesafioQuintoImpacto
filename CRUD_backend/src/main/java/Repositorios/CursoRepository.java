@@ -1,4 +1,4 @@
-package Servicios;
+package Repositorios;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,7 +11,7 @@ import Entidades.Curso;
 import Entidades.Profesor;
 
 @Repository
-public interface CursoService extends JpaRepository<Curso, String> {
+public interface CursoRepository extends JpaRepository<Curso, String> {
 
     @Query("SELECT c FROM Curso c JOIN c.profesor p WHERE p = :profesor AND c.turno = :turno")
     List<Curso> findByProfesorAndTurno(@Param("profesor") Profesor profesor, @Param("turno") String turno);
