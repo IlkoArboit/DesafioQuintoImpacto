@@ -14,4 +14,11 @@ public interface AdministradorRepository extends JpaRepository<Administrador, St
 
     @Query("SELECT a FROM Administrador a WHERE a.id = :id")
     Optional<Administrador> findById(@Param("id") String id);
+
+    @Query("SELECT a FROM Administrador a WHERE a.email = :email")
+    Administrador findByEmail(@Param("email") String email);
+
+    @Query("SELECT a FROM Administrador a WHERE a.nombre = :nombre AND a.apellido = :apellido")
+    Optional<Administrador> findByNombreAndApellido(@Param("nombre") String nombre, @Param("apellido") String apellido);
+    
 }

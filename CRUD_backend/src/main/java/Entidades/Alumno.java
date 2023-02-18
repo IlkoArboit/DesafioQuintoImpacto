@@ -18,8 +18,9 @@ public class Alumno {
     @GenericGenerator(name = "uuid" , strategy = "uuid2")
     private String id;
     private String nombre;
+    private String apellido;
     private String email;
-    private String telefono;
+    private String contrasenia;
     @ManyToMany(mappedBy = "alumnos")
     private List<Curso> cursos;
 
@@ -41,6 +42,14 @@ public class Alumno {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+    
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
 
     public String getEmail() {
         return email;
@@ -50,12 +59,12 @@ public class Alumno {
         this.email = email;
     }
 
-    public String getTelefono() {
-        return telefono;
+    public String getContrasenia() {
+        return contrasenia;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
+    public void setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
     }
 
     public List<Curso> getCursos() {

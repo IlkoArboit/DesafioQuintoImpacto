@@ -16,7 +16,10 @@ public interface CursoRepository extends JpaRepository<Curso, String> {
     @Query("SELECT c FROM Curso c JOIN c.profesor p WHERE p = :profesor AND c.turno = :turno")
     List<Curso> findByProfesorAndTurno(@Param("profesor") Profesor profesor, @Param("turno") String turno);
 
-    @Query("SELECT a FROM Alumno a JOIN a.cursos c WHERE c = :curso")
-    List<Alumno> findByCursosContains(@Param("curso") Curso curso);
+    @Query("SELECT c FROM Curso c WHERE c.dias LIKE %:dias%")
+    List<Curso> findByDias(@Param("dias") String dias);
+
+    @Query("SELECT c FROM Curso c WHERE c.profesor = :profesor")
+    List<Curso> findByProfesor(@Param("profesor") Profesor profesor);
 }
 

@@ -20,6 +20,7 @@ public class Curso {
     private String id;
     private String nombre;
     private String descripcion;
+    private String dias;
     private String turno;
     @ManyToOne
     private Profesor profesor;
@@ -51,6 +52,14 @@ public class Curso {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public String getDias(){
+        return this.dias;
+    }
+
+    public void setDias(String dias){
+        this.dias = dias;
     }
 
     public String getTurno() {

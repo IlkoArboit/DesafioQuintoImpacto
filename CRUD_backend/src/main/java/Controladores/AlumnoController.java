@@ -25,9 +25,12 @@ public class AlumnoController {
     @Autowired
     private AlumnoRepository alumnoRepository;
 
+    @Autowired
+    private CursoRepository cursoRepository;
+
     // Endpoint para obtener información de un alumno por su ID
     @GetMapping("/{alumnoId}")
-    public Alumno getAlumnoById(@PathVariable String alumnoId) {
+    public Alumno getAlumnoById(@PathVariable String alumnoId) throws Exception{
         return alumnoRepository.findById(alumnoId)
                 .orElseThrow(() -> new Exception("Alumno no encontrado con id: " + alumnoId));
     }
@@ -40,7 +43,7 @@ public class AlumnoController {
 
     // Endpoint para actualizar la información de un alumno
     @PutMapping("/{alumnoId}")
-    public Alumno actualizarAlumno(@PathVariable String alumnoId, @RequestBody Alumno alumnoActualizado) {
+    public Alumno actualizarAlumno(@PathVariable String alumnoId, @RequestBody Alumno alumnoActualizado) throws Exception{
         return alumnoRepository.findById(alumnoId)
                 .map(alumno -> {
                     alumno.setNombre(alumnoActualizado.getNombre());
@@ -53,7 +56,7 @@ public class AlumnoController {
 
     // Endpoint para inscribirse en un curso
     @PostMapping("/{alumnoId}/cursos/{cursoId}/inscribirse")
-    public Alumno inscribirseEnCurso(@PathVariable String alumnoId, @PathVariable String cursoId) {
+    public Alumno inscribirseEnCurso(@PathVariable String alumnoId, @PathVariable String cursoId) throws Exception{
         return alumnoRepository.findById(alumnoId)
                 .map(alumno -> {
                     Curso curso = cursoRepository.findById(cursoId)
@@ -66,7 +69,7 @@ public class AlumnoController {
 
     // Endpoint para darse de baja de un curso
     @PostMapping("/{alumnoId}/cursos/{cursoId}/darseDeBaja")
-    public Alumno darseDeBajaDeCurso(@PathVariable String alumnoId, @PathVariable String cursoId) {
+    public Alumno darseDeBajaDeCurso(@PathVariable String alumnoId, @PathVariable String cursoId) throws Exception{
         return alumnoRepository.findById(alumnoId)
                 .map(alumno -> {
                     Curso curso = cursoRepository.findById(cursoId)
