@@ -16,8 +16,9 @@ public class Administrador {
     @GenericGenerator(name = "uuid" , strategy = "uuid2")
     private String id;
     private String nombre;
+    private String apellido;
     private String email;
-    private String telefono;
+    private String contrasenia;
 
     public Administrador() {
     }
@@ -38,6 +39,14 @@ public class Administrador {
         this.nombre = nombre;
     }
 
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -46,12 +55,11 @@ public class Administrador {
         this.email = email;
     }
 
-    public String getTelefono() {
-        return telefono;
+    public String getContrasenia() {
+        return contrasenia;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
+    public void setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
     }
-
 }
