@@ -5,7 +5,8 @@
 package Controladores;
 
 import Entidades.Curso;
-import Repositorios.CursoService;
+import Servicios.CursoService;
+
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

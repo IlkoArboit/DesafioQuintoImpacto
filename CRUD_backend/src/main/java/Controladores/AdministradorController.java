@@ -7,9 +7,10 @@ package Controladores;
 import Entidades.Alumno;
 import Entidades.Curso;
 import Entidades.Profesor;
-import Repositorios.AlumnoService;
-import Repositorios.CursoService;
-import Repositorios.ProfesorService;
+import Servicios.AlumnoService;
+import Servicios.CursoService;
+import Servicios.ProfesorService;
+
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

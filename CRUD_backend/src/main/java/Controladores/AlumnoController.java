@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import Entidades.Alumno;
 import Entidades.Curso;
-import Repositorios.AlumnoService;
-import Repositorios.CursoService;
+import Servicios.AlumnoService;
+import Servicios.CursoService;
 
 @Controller
 @RequestMapping("/alumnos")
