@@ -75,4 +75,12 @@ public class Alumno {
         this.cursos = cursos;
     }
 
+    public void addCurso (Curso curso){
+        this.cursos.add(curso);
+    }
+
+    public void removeCurso(Curso curso){
+        this.cursos.remove(curso);
+    }
+
 }

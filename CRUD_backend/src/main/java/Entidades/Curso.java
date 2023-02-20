@@ -19,7 +19,6 @@ public class Curso {
     @GenericGenerator(name = "uuid" , strategy = "uuid2")
     private String id;
     private String nombre;
-    private String descripcion;
     private String dias;
     private String turno;
     @ManyToOne
@@ -44,14 +43,6 @@ public class Curso {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
     }
 
     public String getDias(){
@@ -82,9 +73,15 @@ public class Curso {
         return alumnos;
     }
 
-    public void setAlumnos(List<Alumno> alumnos) {
-        this.alumnos = alumnos;
+    public void setAlumnos(List<Alumno> list) {
+        this.alumnos = list;
     }
 
-    
+    public void addAlumno(Alumno alumno){
+        this.alumnos.add(alumno);
+    }
+
+    public void removeAlumno(Alumno alumno){
+        this.alumnos.remove(alumno);
+    }
 }

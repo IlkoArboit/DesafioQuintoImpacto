@@ -75,5 +75,8 @@ public class Profesor {
         this.cursos = cursos;
     }
 
+    public void agregarCurso(Curso curso){
+        this.cursos.add(curso);
+    }
     
 }
