@@ -64,7 +64,10 @@ public class AlumnoService {
         Alumno alumno = AlumnoRepository.findById(cursoId).get();
 
         if(alumno != null){
-            Curso curso = CursoService.findById(cursoId).get();
+            Curso curso = CursoService.findById(cursoId);
+            if (curso != null){
+                curcurso.so
+            }
         }
     }
 }

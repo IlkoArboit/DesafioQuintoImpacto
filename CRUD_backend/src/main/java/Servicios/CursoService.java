@@ -12,6 +12,10 @@ public class CursoService {
     @Autowired
     private CursoRepository CursoRepository;
 
-    
+    public Curso findById(String id){
+
+        return CursoRepository.findById(id).get();
+
+    }
     
 }

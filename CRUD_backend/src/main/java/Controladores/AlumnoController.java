@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import Entidades.Alumno;
 import Entidades.Curso;
 import Repositorios.AlumnoRepository;
-import Repositorios.CursoRepository;
+import Servicios.CursoService;
 
 @Controller
 @RequestMapping("/alumnos")
@@ -26,7 +26,7 @@ public class AlumnoController {
     private AlumnoRepository alumnoRepository;
 
     @Autowired
-    private CursoRepository cursoRepository;
+    private CursoService cursoService;
 
     // Endpoint para obtener información de un alumno por su ID
     @GetMapping("/{alumnoId}")
@@ -59,7 +59,7 @@ public class AlumnoController {
     public Alumno inscribirseEnCurso(@PathVariable String alumnoId, @PathVariable String cursoId) throws Exception{
         return alumnoRepository.findById(alumnoId)
                 .map(alumno -> {
-                    Curso curso = cursoRepository.findById(cursoId)
+                    Curso curso = cursoService.findById(cursoId)
                             .orElseThrow(() -> new Exception("Curso no encontrado con id: " + cursoId));
                     alumno.getCursos().add(curso);
                     return alumnoRepository.save(alumno);
@@ -72,7 +72,7 @@ public class AlumnoController {
     public Alumno darseDeBajaDeCurso(@PathVariable String alumnoId, @PathVariable String cursoId) throws Exception{
         return alumnoRepository.findById(alumnoId)
                 .map(alumno -> {
-                    Curso curso = cursoRepository.findById(cursoId)
+                    Curso curso = cursoService.findById(cursoId)
                             .orElseThrow(() -> new Exception("Curso no encontrado con id: " + cursoId));
                     alumno.getCursos().remove(curso);
                     return alumnoRepository.save(alumno);
