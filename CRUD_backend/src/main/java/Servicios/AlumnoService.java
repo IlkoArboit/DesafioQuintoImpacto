@@ -1,12 +1,11 @@
 package Servicios;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-
 import Entidades.Alumno;
 import Entidades.Curso;
 import Repositorios.AlumnoRepository;
@@ -59,15 +58,31 @@ public class AlumnoService {
         }
     }
 
-    public Alumno inscribirseEnCurso(@PathVariable String alumnoId, @PathVariable String cursoId) throws Exception{
-        
-        Alumno alumno = AlumnoRepository.findById(cursoId).get();
+    @Transactional
+    public void inscribirAlumnoACurso(String alumnoID, String cursoID) throws Exception {
+        Alumno alumno = buscarPorID(alumnoID);
+        Curso curso = CursoService.buscarPorId(cursoID);
 
-        if(alumno != null){
-            Curso curso = CursoService.findById(cursoId);
-            if (curso != null){
-                curcurso.so
-            }
+
+        if (curso.getAlumnos().contains(alumno) || alumno.getCursos().contains(curso)) {
+            throw new Exception("El alumno ya está inscrito en este curso.");
         }
+
+        alumno.addCurso(curso);
+        CursoService.inscribirAlumno(alumno, curso);
+    }
+
+    public Alumno buscarPorID(String id){
+        Optional<Alumno> optionalAlumno = AlumnoRepository.findById(id);
+
+        if(!optionalAlumno.isPresent()){
+            throw new IllegalArgumentException("No se encontró un alumno con ese id.");
+        }
+
+        return optionalAlumno.get();
+    }
+
+    public List<Alumno> buscarPorApellidoYNombre(String nombre, String apellido){
+        return AlumnoRepository.findByApellidoAndNombre(apellido, nombre);
     }
 }
