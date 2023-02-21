@@ -21,38 +21,38 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/cursos")
 public class CursoController {
-    @Autowired
-    private CursoRepository CursoRepository;
+    // @Autowired
+    // private CursoRepository CursoRepository;
 
-    @GetMapping
-    public List<Curso> getCursos() {
-        return CursoRepository.findAll();
-    }
+    // @GetMapping
+    // public List<Curso> getCursos() {
+    //     return CursoRepository.findAll();
+    // }
 
-    @GetMapping("/{id}")
-    public Curso getCurso(@PathVariable String id) {
-        return CursoRepository.findById(id).orElseThrow(() -> new NotFoundException("Curso no encontrado"));
-    }
+    // @GetMapping("/{id}")
+    // public Curso getCurso(@PathVariable String id) {
+    //     return CursoRepository.findById(id).orElseThrow(() -> new NotFoundException("Curso no encontrado"));
+    // }
 
-    @PostMapping
-    public Curso crearCurso(@RequestBody Curso curso) {
-        return CursoRepository.save(curso);
-    }
+    // @PostMapping
+    // public Curso crearCurso(@RequestBody Curso curso) {
+    //     return CursoRepository.save(curso);
+    // }
 
-    @PutMapping("/{id}")
-    public Curso actualizarCurso(@PathVariable String id, @RequestBody Curso curso) {
-        Curso cursoActual = CursoRepository.findById(id).orElseThrow(() -> new NotFoundException("Curso no encontrado"));
-        cursoActual.setNombre(curso.getNombre());
-        cursoActual.setDescripcion(curso.getDescripcion());
-        cursoActual.setTurno(curso.getTurno());
-        cursoActual.setProfesor(curso.getProfesor());
-        cursoActual.setAlumnos(curso.getAlumnos());
-        return CursoRepository.save(cursoActual);
-    }
+    // @PutMapping("/{id}")
+    // public Curso actualizarCurso(@PathVariable String id, @RequestBody Curso curso) {
+    //     Curso cursoActual = CursoRepository.findById(id).orElseThrow(() -> new NotFoundException("Curso no encontrado"));
+    //     cursoActual.setNombre(curso.getNombre());
+    //     cursoActual.setDescripcion(curso.getDescripcion());
+    //     cursoActual.setTurno(curso.getTurno());
+    //     cursoActual.setProfesor(curso.getProfesor());
+    //     cursoActual.setAlumnos(curso.getAlumnos());
+    //     return CursoRepository.save(cursoActual);
+    // }
 
-    @DeleteMapping("/{id}")
-    public void eliminarCurso(@PathVariable String id) {
-        Curso curso = CursoRepository.findById(id).orElseThrow(() -> new NotFoundException("Curso no encontrado"));
-        CursoRepository.delete(curso);
-    }
+    // @DeleteMapping("/{id}")
+    // public void eliminarCurso(@PathVariable String id) {
+    //     Curso curso = CursoRepository.findById(id).orElseThrow(() -> new NotFoundException("Curso no encontrado"));
+    //     CursoRepository.delete(curso);
+    // }
 }

@@ -24,40 +24,40 @@ public class ProfesorController {
     @Autowired
     private ProfesorRepository ProfesorRepository;
 
-    @GetMapping("")
-    public List<Profesor> getProfesores() {
-        return ProfesorRepository.findAll();
-    }
+    // @GetMapping("")
+    // public List<Profesor> getProfesores() {
+    //     return ProfesorRepository.findAll();
+    // }
 
-    @GetMapping("/{id}")
-    public Profesor getProfesorById(@PathVariable String id) {
-        return ProfesorRepository.findById(id)
-                .orElseThrow(() -> new Exception("Profesor no encontrado con id: " + id));
-    }
+    // @GetMapping("/{id}")
+    // public Profesor getProfesorById(@PathVariable String id) {
+    //     return ProfesorRepository.findById(id)
+    //             .orElseThrow(() -> new Exception("Profesor no encontrado con id: " + id));
+    // }
 
-    @PostMapping("")
-    public Profesor crearProfesor(@RequestBody Profesor profesor) {
-        return ProfesorRepository.save(profesor);
-    }
+    // @PostMapping("")
+    // public Profesor crearProfesor(@RequestBody Profesor profesor) {
+    //     return ProfesorRepository.save(profesor);
+    // }
 
-    @PutMapping("/{id}")
-    public Profesor actualizarProfesor(@PathVariable String id, @RequestBody Profesor profesorActualizado) {
-        return ProfesorRepository.findById(id)
-                .map(profesor -> {
-                    profesor.setNombre(profesorActualizado.getNombre());
-                    profesor.setEmail(profesorActualizado.getEmail());
-                    return ProfesorRepository.save(profesor);
-                })
-                .orElseThrow(() -> new Exception("Profesor no encontrado con id: " + id));
-    }
+    // @PutMapping("/{id}")
+    // public Profesor actualizarProfesor(@PathVariable String id, @RequestBody Profesor profesorActualizado) {
+    //     return ProfesorRepository.findById(id)
+    //             .map(profesor -> {
+    //                 profesor.setNombre(profesorActualizado.getNombre());
+    //                 profesor.setEmail(profesorActualizado.getEmail());
+    //                 return ProfesorRepository.save(profesor);
+    //             })
+    //             .orElseThrow(() -> new Exception("Profesor no encontrado con id: " + id));
+    // }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> eliminarProfesor(@PathVariable String id) {
-        return ProfesorRepository.findById(id)
-                .map(profesor -> {
-                    ProfesorRepository.delete(profesor);
-                    return ResponseEntity.ok().build();
-                })
-                .orElseThrow(() -> new Exception("Profesor no encontrado con id: " + id));
-    }
+    // @DeleteMapping("/{id}")
+    // public ResponseEntity<?> eliminarProfesor(@PathVariable String id) {
+    //     return ProfesorRepository.findById(id)
+    //             .map(profesor -> {
+    //                 ProfesorRepository.delete(profesor);
+    //                 return ResponseEntity.ok().build();
+    //             })
+    //             .orElseThrow(() -> new Exception("Profesor no encontrado con id: " + id));
+    // }
 }

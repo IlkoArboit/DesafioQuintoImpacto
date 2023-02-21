@@ -27,15 +27,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin")
 public class AdministradorController {
 
-    @Autowired
-    private ProfesorService ProfesorService;
-    @Autowired
-    private CursoService CursoService;
-    @Autowired
-    private AlumnoService AlumnoService;
+    // @Autowired
+    // private ProfesorService ProfesorService;
+    // @Autowired
+    // private CursoService CursoService;
+    // @Autowired
+    // private AlumnoService AlumnoService;
 
-    @GetMapping("/")
-    Public String
+    // @GetMapping("/")
+    // Public String
 
 
 }
