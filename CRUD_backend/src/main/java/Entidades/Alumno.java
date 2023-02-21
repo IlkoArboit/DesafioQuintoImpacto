@@ -19,6 +19,7 @@ public class Alumno {
     private String id;
     private String nombre;
     private String apellido;
+    private int DNI;
     private String email;
     private String contrasenia;
     @ManyToMany(mappedBy = "alumnos")
@@ -51,6 +52,14 @@ public class Alumno {
         this.apellido = apellido;
     }
 
+    public int getDNI() {
+        return DNI;
+    }
+
+    public void setDNI(int dNI) {
+        DNI = dNI;
+    }
+    
     public String getEmail() {
         return email;
     }

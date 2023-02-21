@@ -19,6 +19,7 @@ public class Profesor {
     private String id;
     private String nombre;
     private String apellido;
+    private int DNI;
     private String email;
     private String contrasenia;
     @OneToMany(mappedBy = "profesor")
@@ -51,6 +52,14 @@ public class Profesor {
         this.apellido = apellido;
     }
 
+    public int getDNI() {
+        return DNI;
+    }
+
+    public void setDNI(int dNI) {
+        DNI = dNI;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -79,4 +88,7 @@ public class Profesor {
         this.cursos.add(curso);
     }
     
+    public void eliminarCurso(Curso curso){
+        this.cursos.remove(curso);
+    }
 }
