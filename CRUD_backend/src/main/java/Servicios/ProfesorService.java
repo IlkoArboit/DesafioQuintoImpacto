@@ -21,27 +21,34 @@ public class ProfesorService {
     CursoService CursoService;
 
     @Transactional
-    public Profesor guardar(String nombre, String apellido){
+    public Profesor crear(String nombre, String apellido, int dni) throws Exception{
 
-        Profesor newProfesor = new Profesor();
+        Profesor newProfesor = ProfesorRepository.findByDni(dni);
 
-        newProfesor.setNombre(nombre);
-        newProfesor.setApellido(apellido);
-        newProfesor.setEmail(Utilidades.generarEmail(nombre, apellido, "Profesores"));
-        newProfesor.setContrasenia(Utilidades.generarContrasena(8));
-
-        return ProfesorRepository.save(newProfesor);
+        if(newProfesor == null){
+            newProfesor = new Profesor();
+            newProfesor.setNombre(nombre);
+            newProfesor.setApellido(apellido);
+            newProfesor.setDNI(dni);
+            newProfesor.setEmail(Utilidades.generarEmail(nombre, apellido, "Profesores"));
+            newProfesor.setContrasenia(Utilidades.generarContrasena(8));
+            return ProfesorRepository.save(newProfesor);
+        } else {
+            throw new Exception("Ya existe un profesor con este DNI");
+        }
     }
 
     @Transactional
-    public Profesor modificar(String id,String nombre, String apellido) throws Exception{
+    public Profesor modificar(String id, String nombre, String apellido, int dni) throws Exception{
 
-        Profesor modProfesor = ProfesorRepository.findById(id).get();
+        Optional<Profesor> optionalProfesor = ProfesorRepository.findById(id);
 
-        if(modProfesor != null){            
-            modProfesor.setNombre(nombre);
-            modProfesor.setApellido(apellido);
-
+        if(optionalProfesor.isPresent()){
+            Profesor modProfesor = optionalProfesor.get();
+            if(ProfesorRepository.findByDni(dni).equals(modProfesor)){
+                modProfesor.setNombre(nombre);
+                modProfesor.setApellido(apellido);
+            }
             return ProfesorRepository.save(modProfesor);
         }else {
             throw new Exception("El profesor no se encuentra en la base de datos");
@@ -61,28 +68,44 @@ public class ProfesorService {
     }
 
     @Transactional
-    public Profesor asignarCurso(String profesorID, String cursoID) {
+    public void asignarCurso(String profesorID, String cursoID) throws Exception {
         Profesor profesor = buscarPorID(profesorID);
         Curso curso = CursoService.buscarPorId(cursoID);
         
         
-        // Verificar que el curso no tenga ya un profesor asignado
+        // Verificar que el curso no tenga ya al profesor asignado
         if (curso.getProfesor() != null && curso.getProfesor().equals(profesor)) {
-            return profesor;
+            throw new Exception("El profesor ya está asignado a este curso");
         }
         
         // Verificar que el profesor esté disponible para el horario del curso
         if (!estaDisponible(profesorID, curso.getDias(), curso.getTurno())) {
-            throw new RuntimeException("El profesor no está disponible para el horario del curso.");
+            throw new Exception("El profesor no está disponible para el horario del curso.");
         }
         
         // Verificar que el curso no tenga un profesor asignado para ese horario
         if (CursoService.buscarPorProfesorTurnoYDia(profesor.getId(), curso.getDias(), curso.getTurno()) != null) {
-            throw new RuntimeException("Ya existe un profesor asignado para este horario del curso.");
+            throw new Exception("Ya existe un profesor asignado para este horario del curso.");
         }
         
         profesor.agregarCurso(curso);
-        return ProfesorRepository.save(profesor);
+        CursoService.agregarProfesor(profesor, curso);
+        ProfesorRepository.save(profesor);
+    }
+
+    @Transactional
+    public void eliminarCurso(String profesorID, String cursoID) throws Exception{
+        Profesor profesor = buscarPorID(profesorID);
+        Curso curso = CursoService.buscarPorId(cursoID);
+
+        // Verificar que el curso no tenga ya al profesor asignado
+        if (curso.getProfesor() == null || !curso.getProfesor().equals(profesor)) {
+            throw new Exception("Este profesor no está asignado a este curso");
+        }
+
+        profesor.eliminarCurso(curso);
+        CursoService.eliminarProfesor(profesor, curso);
+        ProfesorRepository.save(profesor);
     }
 
     public boolean estaDisponible(String idProfesor, String dia, String turno) {
@@ -110,6 +133,16 @@ public class ProfesorService {
         }
 
         return optionalProfesor.get();
+    }
+
+    public Profesor buscarPorDNI(int dni){
+        Profesor profesor = ProfesorRepository.findByDni(dni);
+
+        if(profesor == null){
+            throw new IllegalArgumentException("No se encontró un profesor con ese id.");
+        }
+
+        return profesor;
     }
 
     public List<Profesor> buscarPorNombreYApellido(String nombre, String apellido){

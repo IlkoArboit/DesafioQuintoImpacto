@@ -26,7 +26,7 @@ public class CursoService {
     }
 
     @Transactional
-    public Curso guardar(String nombre, String dias, String turno, Profesor profesor, List<Alumno> alumnos) {
+    public Curso crear(String nombre, String dias, String turno, Profesor profesor, List<Alumno> alumnos) {
 
         Curso newCurso = new Curso();
 
@@ -96,6 +96,24 @@ public class CursoService {
     @Transactional
     public void inscribirAlumno (Alumno alumno, Curso curso){
         curso.addAlumno(alumno);
+        CursoRepository.save(curso);
+    }
+
+    @Transactional
+    public void eliminarAlumno (Alumno alumno, Curso curso){
+        curso.removeAlumno(alumno);
+        CursoRepository.save(curso);
+    }
+
+    @Transactional
+    public void agregarProfesor(Profesor profesor, Curso curso){
+        curso.setProfesor(profesor);
+        CursoRepository.save(curso);
+    }
+
+    @Transactional
+    public void eliminarProfesor (Profesor profesor, Curso curso){
+        curso.setProfesor(null);
         CursoRepository.save(curso);
     }
 

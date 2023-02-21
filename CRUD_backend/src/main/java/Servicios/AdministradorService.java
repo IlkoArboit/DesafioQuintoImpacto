@@ -1,7 +1,5 @@
 package Servicios;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,9 +8,6 @@ import Entidades.Administrador;
 import Entidades.Alumno;
 import Entidades.Profesor;
 import Repositorios.AdministradorRepository;
-import Repositorios.AlumnoRepository;
-import Repositorios.CursoRepository;
-import Repositorios.ProfesorRepository;
 
 @Service
 public class AdministradorService {
@@ -28,12 +23,14 @@ public class AdministradorService {
 
     @Autowired
     CursoService CursoService;
+    @Autowired
+    Repositorios.CursoRepository CursoRepository;
 
     @Autowired
     Utilidades util;
 
     @Transactional
-    public Administrador guardar(String nombre, String apellido){
+    public Administrador crear(String nombre, String apellido){
         
         Administrador newAdmin = new Administrador();
 
@@ -73,18 +70,13 @@ public class AdministradorService {
     }
 
     @Transactional
-    public Profesor guardarProfesor(String nombre, String apellido){
-        return ProfesorService.guardar(nombre, apellido);
-
+    public Profesor guardarProfesor(String nombre, String apellido, int dni) throws Exception{
+        return ProfesorService.crear(nombre, apellido, dni);
     }
+
     @Transactional
-    public Alumno guardarAlumno(String nombre, String apellido){
-        return AlumnoService.guardar(nombre, apellido);
-
+    public Alumno guardarAlumno(String nombre, String apellido, int dni) throws Exception{
+        return AlumnoService.crear(nombre, apellido, dni);
     }
-    @Transactional
-    public Profesor guardarCurso(String nombre, String apellido){
-        return CursoService.guardar(nombre, apellido);
 
-    }
 }
