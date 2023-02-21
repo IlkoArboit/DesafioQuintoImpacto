@@ -20,6 +20,9 @@ public interface ProfesorRepository extends JpaRepository<Profesor, String> {
     @Query("SELECT p FROM Profesor p WHERE p.apellido = :apellido")
     List<Profesor> findByApellido(@Param("apellido") String apellido);
 
+    @Query("SELECT p FROM Profesor p WHERE p.dni = :dni")
+    Profesor findByDni(@Param("dni") int dni);
+
     @Query("SELECT p FROM Profesor p WHERE p.apellido = :apellido AND p.nombre = :nombre")
     List<Profesor> findByApellidoAndNombre(@Param("apellido") String apellido, @Param("nombre") String nombre);
 
@@ -30,5 +33,5 @@ public interface ProfesorRepository extends JpaRepository<Profesor, String> {
     List<Profesor> findByCursoAndTurno(@Param("curso") Curso curso, @Param("turno") String turno);
 
     @Query("SELECT p FROM Profesor p JOIN p.cursos c WHERE p.id = :id AND c.turno = :turno AND c.dias LIKE %:dias%")
-Optional<Profesor> findByIdAndTurnoAndDias(@Param("id") String id, @Param("turno") String turno, @Param("dias") String dias);
+    Optional<Profesor> findByIdAndTurnoAndDias(@Param("id") String id, @Param("turno") String turno, @Param("dias") String dias);
 }

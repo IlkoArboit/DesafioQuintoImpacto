@@ -16,6 +16,9 @@ public interface AlumnoRepository extends JpaRepository<Alumno, String> {
     @Query("SELECT a FROM Alumno a WHERE a.id = :id")
     Optional<Alumno> findById(@Param("id") String id);
 
+    @Query("SELECT a FROM Alumno a WHERE a.dni = :dni")
+    Alumno findByDni(@Param("dni") int dni);
+
     @Query("SELECT a FROM Alumno a WHERE a.email = :email")
     Alumno findByEmail(@Param("email") String email);
 
