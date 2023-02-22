@@ -119,4 +119,8 @@ public class AlumnoService {
     public List<Alumno> buscarPorApellidoYNombre(String nombre, String apellido){
         return AlumnoRepository.findByApellidoAndNombre(apellido, nombre);
     }
+
+    public Alumno buscarPorEmail(String email){
+        return AlumnoRepository.findByEmail(email);
+    }
 }

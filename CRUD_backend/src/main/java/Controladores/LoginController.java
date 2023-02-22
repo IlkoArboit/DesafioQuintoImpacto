@@ -10,12 +10,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import Entidades.Administrador;
+import Entidades.Alumno;
+import Entidades.Profesor;
 import Servicios.AdministradorService;
 import Servicios.AlumnoService;
 import Servicios.ProfesorService;
 
 @Controller
-@RequestMapping("/login")
+@RequestMapping("/Login")
 public class LoginController {
 
     @Autowired
@@ -27,37 +30,39 @@ public class LoginController {
     @Autowired
     AlumnoService AlumnoService;
 
-    @GetMapping("/login")
-    public String mostrarFormularioLogin() {
+    @GetMapping("/Login")
+    public String mostrarLogin() {
         return "Login.html";
     }
 
-    @PostMapping("/login")
-    public String login(@RequestParam("username") String username,
+    @PostMapping("/Login")
+    public String Login(@RequestParam("username") String username,
             @RequestParam("password") String password,
-            HttpSession session, ModelMap modelo) {
+            HttpSession session, ModelMap modelo) throws Exception {
                 boolean autenticado = false;
                 if(username.contains("administradores")){
-                    autenticado = true;
+                    Administrador admin = AdministradorService.buscarPorEmail(username);
+                    if(admin != null && admin.getContrasenia().equals(password)){
+                        autenticado = true;
+                    }
+                } else if(username.contains("profesores")){
+                    Profesor profesor = ProfesorService.buscarPorEmail(username);
+                    if(profesor != null && profesor.getContrasenia().equals(password)){
+                        autenticado = true;
+                    }
+                } else if(username.contains("alumnos")){
+                    Alumno alumno = AlumnoService.buscarPorEmail(username);
+                    if(alumno != null && alumno.getContrasenia().equals(password)){
+                        autenticado = true;
+                    }
                 }
 
         if (autenticado) {
             session.setAttribute("username", username);
             return "redirect:/perfil";
         } else {
-            return "redirect:/login?error=true";
+            return "redirect:/Login?error=true";
         }
     }
 
-    @GetMapping("/perfil")
-    public String perfil(HttpSession session) {
-        String username = (String) session.getAttribute("username");
-        if (username != null) {
-            // Tu lógica para obtener información del usuario y mostrarla en la página de
-            // perfil
-            return "perfil";
-        } else {
-            return "redirect:/login";
-        }
-    }
 }

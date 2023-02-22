@@ -24,18 +24,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/Administradores")
 public class AdministradorController {
 
-    // @Autowired
-    // private ProfesorService ProfesorService;
-    // @Autowired
-    // private CursoService CursoService;
-    // @Autowired
-    // private AlumnoService AlumnoService;
+    @Autowired
+    private ProfesorService ProfesorService;
+    @Autowired
+    private CursoService CursoService;
+    @Autowired
+    private AlumnoService AlumnoService;
 
-    // @GetMapping("/")
-    // Public String
+    @GetMapping("/")
+    public String admin(){
+        return "Administradores.html";
+    }
 
 
 }

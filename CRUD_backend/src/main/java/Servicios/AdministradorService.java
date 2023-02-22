@@ -79,4 +79,8 @@ public class AdministradorService {
         return AlumnoService.crear(nombre, apellido, dni);
     }
 
+    public Administrador buscarPorEmail(String email){
+        return AdministradorRepository.findByEmail(email);
+    }
+
 }
