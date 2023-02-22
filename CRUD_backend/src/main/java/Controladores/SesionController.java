@@ -3,12 +3,12 @@ package Controladores;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import Entidades.Administrador;
 import Entidades.Alumno;
@@ -17,9 +17,9 @@ import Servicios.AdministradorService;
 import Servicios.AlumnoService;
 import Servicios.ProfesorService;
 
-@Controller
-@RequestMapping("/Login")
-public class LoginController {
+@RestController
+@RequestMapping("/ingresar")
+public class SesionController {
 
     @Autowired
     AdministradorService AdministradorService;
@@ -30,13 +30,13 @@ public class LoginController {
     @Autowired
     AlumnoService AlumnoService;
 
-    @GetMapping("/Login")
-    public String mostrarLogin() {
-        return "Login.html";
+    @GetMapping("/ingresar")
+    public String index() throws Exception {
+        return "ingreso.html";
     }
 
-    @PostMapping("/Login")
-    public String Login(@RequestParam("username") String username,
+    @PostMapping("/ingresar")
+    public String mostrarLogin(@RequestParam("username") String username,
             @RequestParam("password") String password,
             HttpSession session, ModelMap modelo) throws Exception {
                 boolean autenticado = false;
@@ -61,7 +61,7 @@ public class LoginController {
             session.setAttribute("username", username);
             return "redirect:/perfil";
         } else {
-            return "redirect:/Login?error=true";
+            return "redirect:/ingresar?error=true";
         }
     }
 
