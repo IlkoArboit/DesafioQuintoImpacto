@@ -153,5 +153,8 @@ public class ProfesorService {
         return ProfesorRepository.findByEmail(email);
     }
 
+    public List<Profesor> listarProfesores(){
+        return ProfesorRepository.buscarProfesores();
+    }
     
 }

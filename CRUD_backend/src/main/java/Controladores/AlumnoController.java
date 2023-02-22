@@ -4,80 +4,115 @@
  */
 package Controladores;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import Entidades.Alumno;
 import Entidades.Curso;
 import Repositorios.AlumnoRepository;
+import Servicios.AlumnoService;
 import Servicios.CursoService;
 
 @Controller
 @RequestMapping("/alumnos")
 public class AlumnoController {
 
-    // @Autowired
-    // private AlumnoRepository alumnoRepository;
+    @Autowired
+    private AlumnoService AlumnoService;
 
-    // @Autowired
-    // private CursoService cursoService;
+    @Autowired
+    private CursoService cursoService;
 
-    // // Endpoint para obtener información de un alumno por su ID
-    // @GetMapping("/{alumnoId}")
-    // public Alumno getAlumnoById(@PathVariable String alumnoId) throws Exception{
-    //     return alumnoRepository.findById(alumnoId)
-    //             .orElseThrow(() -> new Exception("Alumno no encontrado con id: " + alumnoId));
-    // }
+    @GetMapping("/")
+    public String mostrarAlumnos(ModelMap modelo){
+        List<Alumno> listaAlumnos = AlumnoService.listarAlumnos();
 
-    // // Endpoint para crear un nuevo alumno
-    // @PostMapping
-    // public Alumno crearAlumno(@RequestBody Alumno alumno) {
-    //     return alumnoRepository.save(alumno);
-    // }
+        modelo.addAttribute("Alumnos", listaAlumnos);
+        return "Alumnos.html";
+    }
 
-    // // Endpoint para actualizar la información de un alumno
-    // @PutMapping("/{alumnoId}")
-    // public Alumno actualizarAlumno(@PathVariable String alumnoId, @RequestBody Alumno alumnoActualizado) throws Exception{
-    //     return alumnoRepository.findById(alumnoId)
-    //             .map(alumno -> {
-    //                 alumno.setNombre(alumnoActualizado.getNombre());
-    //                 alumno.setEmail(alumnoActualizado.getEmail());
-    //                 alumno.setCursos(alumnoActualizado.getCursos());
-    //                 return alumnoRepository.save(alumno);
-    //             })
-    //             .orElseThrow(() -> new Exception("Alumno no encontrado con id: " + alumnoId));
-    // }
+    @GetMapping("/CrearAlumno")
+    public String crearAlumno(ModelMap modelo){
+        return "CargaAlumno.html";
+    }
 
-    // // Endpoint para inscribirse en un curso
-    // @PostMapping("/{alumnoId}/cursos/{cursoId}/inscribirse")
-    // public Alumno inscribirseEnCurso(@PathVariable String alumnoId, @PathVariable String cursoId) throws Exception{
-    //     return alumnoRepository.findById(alumnoId)
-    //             .map(alumno -> {
-    //                 Curso curso = cursoService.findById(cursoId)
-    //                         .orElseThrow(() -> new Exception("Curso no encontrado con id: " + cursoId));
-    //                 alumno.getCursos().add(curso);
-    //                 return alumnoRepository.save(alumno);
-    //             })
-    //             .orElseThrow(() -> new Exception("Alumno no encontrado con id: " + alumnoId));
-    // }
+    @PostMapping("/CrearAlumno")
+    public String crearAlumno(@RequestParam String nombre, @RequestParam String apellido,@RequestParam int dni, ModelMap modelo) {
+        try{
+            AlumnoService.crear(nombre, apellido, dni);
+            modelo.put("exito", "Registro exitoso");
+            return "redirect:/Alumnos";
+        }catch (Exception e){
+            
+            modelo.put("error", "No se pudo cargar");
+            return "CrearAlumno";
+        }
+    }
 
-    // // Endpoint para darse de baja de un curso
-    // @PostMapping("/{alumnoId}/cursos/{cursoId}/darseDeBaja")
-    // public Alumno darseDeBajaDeCurso(@PathVariable String alumnoId, @PathVariable String cursoId) throws Exception{
-    //     return alumnoRepository.findById(alumnoId)
-    //             .map(alumno -> {
-    //                 Curso curso = cursoService.findById(cursoId)
-    //                         .orElseThrow(() -> new Exception("Curso no encontrado con id: " + cursoId));
-    //                 alumno.getCursos().remove(curso);
-    //                 return alumnoRepository.save(alumno);
-    //             })
-    //             .orElseThrow(() -> new Exception("Alumno no encontrado con id: " + alumnoId));
-    // }
+    @GetMapping("/ModificarAlumno/{id}")
+    public String modificarAlumno(@PathVariable String id, ModelMap modelo){
+        
+        modelo.put("Alumno", AlumnoService.buscarPorID(id));
+
+        return "ModificarAlumno.html";
+    }
+
+    @PostMapping("/ModificarAlumno/{id}")
+    public String modificarAlumno(ModelMap modelo, @PathVariable String id, @RequestParam String nombre, @RequestParam String apellido, @RequestParam int dni){
+        try{
+            AlumnoService.modificar(id, nombre, apellido, dni);
+            modelo.put("exito", "Modificado Existosamente");
+            return "redirect:/Alumnos/";
+        }catch (Exception e){
+            modelo.put("error", "No se ha podido modificar");
+            return "ModificarAlumno.html";
+        }
+    }
+
+    @PostMapping("/EliminarAlumno/{id}")
+    public String eliminarAlumno(ModelMap modelo, @PathVariable String id) throws Exception{
+
+        try{
+            AlumnoService.eliminar(id);
+            modelo.put("exito", "Eliminado Existosamente");
+            return "redirect:/Alumnos/";
+        }catch (Exception e){
+            modelo.put("error", "No se ha podido eliminar");
+            return "ModificarAlumno.html";
+        }
+    }
+
+    @GetMapping("/InscribirseACurso/{id}")
+    public String insrcibirse(ModelMap modelo){
+        List<Curso> listaCursos = cursoService.listarCursos();
+
+        modelo.put("cursos", listaCursos);
+
+        return "CursosInscripcion.html";
+    }
+
+    @PostMapping("/InscribirseACurso/{id}")
+    public String inscribirse(ModelMap modelo, @PathVariable String id, @RequestParam String cursoId){
+        try{
+            AlumnoService.inscribirAlumnoACurso(id, cursoId);
+            modelo.put("exito", "Inscripto Existosamente");
+            return "redirect:/InscribirseACurso/{id}";
+        }catch (Exception e){
+            modelo.put("error", "No se ha podido inscribir");
+            return "CursoInscripción.html";
+        }
+    }
+
+    
 }
 

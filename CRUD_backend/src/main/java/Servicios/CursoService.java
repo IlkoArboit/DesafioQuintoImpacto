@@ -138,4 +138,8 @@ public class CursoService {
     public Curso buscarPorProfesorTurnoYDia(String idProfesor, String turno, String dias){
         return CursoRepository.findByProfesorAndTurnoAndDias(idProfesor, turno, dias);
     }
+
+    public List<Curso> listarCursos(){
+        return CursoRepository.findAll();
+    }
 }

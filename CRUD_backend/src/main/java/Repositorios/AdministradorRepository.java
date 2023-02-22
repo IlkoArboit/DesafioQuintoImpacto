@@ -1,5 +1,6 @@
 package Repositorios;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,6 +12,9 @@ import Entidades.Administrador;
 
 @Repository
 public interface AdministradorRepository extends JpaRepository<Administrador, String> {
+
+    @Query("SELECT p FROM Profesor p ORDER BY apellido")
+    public List<Administrador> buscarAdministradores();
 
     @Query("SELECT a FROM Administrador a WHERE a.id = :id")
     Optional<Administrador> findById(@Param("id") String id);

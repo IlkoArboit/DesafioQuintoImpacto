@@ -14,6 +14,9 @@ import Entidades.Profesor;
 @Repository
 public interface ProfesorRepository extends JpaRepository<Profesor, String> {
 
+    @Query("SELECT p FROM Profesor p ORDER BY apellido")
+    public List<Profesor> buscarProfesores();
+
     @Query("SELECT a FROM profesor a WHERE a.id = :id")
     Optional<Profesor> findById(@Param("id") String id);
 

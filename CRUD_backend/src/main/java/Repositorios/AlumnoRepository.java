@@ -13,6 +13,9 @@ import Entidades.Alumno;
 @Repository
 public interface AlumnoRepository extends JpaRepository<Alumno, String> {
 
+    @Query("SELECT a FROM Alumo a ORDER BY apellido")
+    public List<Alumno> buscarAlumnos();
+
     @Query("SELECT a FROM Alumno a WHERE a.id = :id")
     Optional<Alumno> findById(@Param("id") String id);
 

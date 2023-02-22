@@ -1,5 +1,8 @@
 package Servicios;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -81,6 +84,20 @@ public class AdministradorService {
 
     public Administrador buscarPorEmail(String email){
         return AdministradorRepository.findByEmail(email);
+    }
+
+    public Administrador buscarPorID(String id){
+        Optional<Administrador> optionalAdministrador = AdministradorRepository.findById(id);
+
+        if(optionalAdministrador.isPresent()){
+            return optionalAdministrador.get();
+        } else {
+            return null;
+        }
+    }
+
+    public List<Administrador> listarAdministradores(){
+        return AdministradorRepository.findAll();
     }
 
 }

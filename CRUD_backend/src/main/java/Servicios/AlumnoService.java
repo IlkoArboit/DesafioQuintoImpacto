@@ -123,4 +123,8 @@ public class AlumnoService {
     public Alumno buscarPorEmail(String email){
         return AlumnoRepository.findByEmail(email);
     }
+
+    public List<Alumno> listarAlumnos(){
+        return AlumnoRepository.buscarAlumnos();
+    }
 }
