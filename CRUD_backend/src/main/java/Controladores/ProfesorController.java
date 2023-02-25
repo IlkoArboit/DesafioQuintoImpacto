@@ -4,7 +4,9 @@
  */
 package Controladores;
 
+import Entidades.Curso;
 import Entidades.Profesor;
+import Servicios.CursoService;
 import Servicios.ProfesorService;
 
 import java.util.List;
@@ -25,6 +27,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ProfesorController {
     @Autowired
     private ProfesorService ProfesorService;
+
+    @Autowired
+    private CursoService CursoService;
 
     @GetMapping("/")
     public String profesor(ModelMap modelo){
@@ -82,6 +87,50 @@ public class ProfesorController {
         }catch (Exception e){
             modelo.put("error", "No se ha podido eliminar");
             return "ModificarProfesor.html";
+        }
+    }
+
+    @GetMapping("/perfil/{id}")
+    public String mostrarPrefil(@PathVariable String id, ModelMap modelo){
+        Profesor profesor = ProfesorService.buscarPorID(id);
+
+        List<Curso> cursosProfesor = profesor.getCursos();
+        modelo.put("profesor", profesor);
+        modelo.put("cursos", cursosProfesor);
+
+        return "PerfilProfesor.html";
+    }
+
+    @GetMapping("/inscribirCurso/{id}")
+    public String inscripcionCursos(@PathVariable String id, ModelMap modelo){
+        List<Curso> cursos = CursoService.listarCursos();
+        modelo.put("cursos", cursos);
+        modelo.put("idProfesor", id);
+
+        return "InscripcionProfesores.html";
+    }
+
+    @PostMapping("/inscribir/{id}/{cursoId}")
+    public String inscripcionCurso(@PathVariable String id, @PathVariable String cursoId, ModelMap modelo){
+        try{
+            ProfesorService.asignarCurso(id, cursoId);
+            modelo.put("exito", "Inscripto Exitosamente");
+            return "redirect:/inscribirCursos/{id}";
+        }catch (Exception e){
+            modelo.put("error", e.getMessage());
+            return "InscripcionProfesor.html";
+        }
+    }
+
+    @PostMapping("/DarDeBaja/{id}/{cursoId}")
+    public String darDeBaja(@PathVariable String id, @PathVariable String cursoId, ModelMap modelo){
+        try{
+            ProfesorService.eliminarCurso(id, cursoId);
+            modelo.put("exito", "Eliminado Correctamente");
+            return "redirect:/incribirCurso/{id}";
+        }catch(Exception e){
+            modelo.put("error", e.getMessage());
+            return "InscripcionProfesor.html";
         }
     }
 

@@ -38,6 +38,14 @@ public class AlumnoController {
         return "Alumnos.html";
     }
 
+    @GetMapping("/perfil/{id}")
+    public String perfil(ModelMap modelo, @RequestParam String id){
+        Alumno alumno = AlumnoService.buscarPorID(id);
+        modelo.put("alumno", alumno);
+        modelo.put("cursos", alumno.getCursos());
+        return "PerfilAlumnos.html";
+    }
+
     @GetMapping("/CrearAlumno")
     public String crearAlumno(ModelMap modelo){
         return "CargaAlumno.html";
@@ -90,16 +98,18 @@ public class AlumnoController {
     }
 
     @GetMapping("/InscribirseACurso/{id}")
-    public String insrcibirse(ModelMap modelo){
+    public String insrcibirse(ModelMap modelo, @RequestParam String id){
         List<Curso> listaCursos = cursoService.listarCursos();
+        Alumno alumno = AlumnoService.buscarPorID(id);
 
+        modelo.put("alumno", alumno);
         modelo.put("cursos", listaCursos);
 
         return "CursosInscripcion.html";
     }
 
-    @PostMapping("/InscribirseACurso/{id}")
-    public String inscribirse(ModelMap modelo, @PathVariable String id, @RequestParam String cursoId){
+    @PostMapping("/InscribirseACurso/{id}/{cursoId}")
+    public String inscribirse(ModelMap modelo, @PathVariable String id, @PathVariable String cursoId){
         try{
             AlumnoService.inscribirAlumnoACurso(id, cursoId);
             modelo.put("exito", "Inscripto Existosamente");
@@ -110,6 +120,17 @@ public class AlumnoController {
         }
     }
 
+    @PostMapping("/EliminarCurso/{id}/{cursoId}")
+    public String darseDeBaja(ModelMap modelo, @PathVariable String id, @PathVariable String cursoId){
+        try{
+            AlumnoService.eliminarAlumnoDeCurso(id, cursoId);
+            modelo.put("exito", "Eliminado exitosamente");
+            return "redirect:/InscribirseACurso/{id}";
+        }catch (Exception e){
+            modelo.put("error", e.getMessage());
+            return "CursosInscripcion.html";
+        }
+    }
     
 }
 

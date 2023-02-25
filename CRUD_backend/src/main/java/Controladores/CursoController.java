@@ -59,7 +59,7 @@ public class CursoController {
     @GetMapping("/modificar/{id}")
     public String modificar(@PathVariable String id, ModelMap modelo){
 
-        modelo.put("Alumno", CursoService.buscarPorId(id));
+        modelo.put("curso", CursoService.buscarPorId(id));
         return "ModificarCurso.html";
     }
 
