@@ -4,12 +4,16 @@
  */
 package Controladores;
 
+import Entidades.Alumno;
 import Entidades.Curso;
+import Entidades.Profesor;
 import Repositorios.CursoRepository;
+import Servicios.CursoService;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,42 +21,70 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/cursos")
 public class CursoController {
-    // @Autowired
-    // private CursoRepository CursoRepository;
 
-    // @GetMapping
-    // public List<Curso> getCursos() {
-    //     return CursoRepository.findAll();
-    // }
+    @Autowired
+    CursoService CursoService;
 
-    // @GetMapping("/{id}")
-    // public Curso getCurso(@PathVariable String id) {
-    //     return CursoRepository.findById(id).orElseThrow(() -> new NotFoundException("Curso no encontrado"));
-    // }
+    @GetMapping("/")
+    public String listarCursos(ModelMap modelo){
+        
+        List<Curso> listaCursos = CursoService.listarCursos();
 
-    // @PostMapping
-    // public Curso crearCurso(@RequestBody Curso curso) {
-    //     return CursoRepository.save(curso);
-    // }
+        modelo.addAttribute("cursos", listaCursos);
+        return "Cursos.html";
+    }
 
-    // @PutMapping("/{id}")
-    // public Curso actualizarCurso(@PathVariable String id, @RequestBody Curso curso) {
-    //     Curso cursoActual = CursoRepository.findById(id).orElseThrow(() -> new NotFoundException("Curso no encontrado"));
-    //     cursoActual.setNombre(curso.getNombre());
-    //     cursoActual.setDescripcion(curso.getDescripcion());
-    //     cursoActual.setTurno(curso.getTurno());
-    //     cursoActual.setProfesor(curso.getProfesor());
-    //     cursoActual.setAlumnos(curso.getAlumnos());
-    //     return CursoRepository.save(cursoActual);
-    // }
+    @GetMapping("/crear")
+    public String guardar(){
+        return "CargaCurso.html";
+    }
 
-    // @DeleteMapping("/{id}")
-    // public void eliminarCurso(@PathVariable String id) {
-    //     Curso curso = CursoRepository.findById(id).orElseThrow(() -> new NotFoundException("Curso no encontrado"));
-    //     CursoRepository.delete(curso);
-    // }
+    @PostMapping("/crear")
+    public String guardar(@RequestParam String nombre, @RequestParam String turno, @RequestParam String dias, ModelMap modelo){
+        try{
+            CursoService.crear(nombre, turno, dias);
+            modelo.put("exito", "Creado exitosamente");
+            return "redirect:/cursos";
+        }catch (Exception e){
+            modelo.put("error", "No se pudo crear");
+            return "CargaCurso.html";
+        }
+    }
+
+    @GetMapping("/modificar/{id}")
+    public String modificar(@PathVariable String id, ModelMap modelo){
+
+        modelo.put("Alumno", CursoService.buscarPorId(id));
+        return "ModificarCurso.html";
+    }
+
+    @PostMapping("/modificar/{id}")
+    public String modificar(ModelMap modelo, @PathVariable String id, @RequestParam String nombre, @RequestParam String turno, @RequestParam String dias){
+        try{
+            CursoService.modificar(id, nombre, dias, turno);
+            modelo.put("exito", "Modificado Exitosamente");
+            return "redirect:/cursos";
+        }catch(Exception e){
+            modelo.put("error", "Error al modificar");
+            return "ModificarCurso.html";
+        }
+    }
+
+    @PostMapping("/eliminar/{id}")
+    public String eliminar(ModelMap modelo, @PathVariable String id){
+        try{
+            CursoService.eliminar(id);
+            modelo.put("exito", "Eliminado Existosamente");
+            return "redirect:/cursos";
+        }catch(Exception e){
+            modelo.put("error", "Error al eliminar");
+            return "Cursos.html";
+        }
+    }
+
 }

@@ -10,7 +10,7 @@ public class MainController {
 
     @GetMapping("/")
     public String index() {
-        return "Index.html";
+        return "Index";
     }
 
 }

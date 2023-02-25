@@ -26,21 +26,19 @@ public class CursoService {
     }
 
     @Transactional
-    public Curso crear(String nombre, String dias, String turno, Profesor profesor, List<Alumno> alumnos) {
+    public Curso crear(String nombre, String dias, String turno) {
 
         Curso newCurso = new Curso();
 
         newCurso.setNombre(nombre);
         newCurso.setDias(dias);
         newCurso.setTurno(turno);
-        newCurso.setAlumnos(alumnos);
-        newCurso.setProfesor(profesor);
 
         return CursoRepository.save(newCurso);
     }
 
     @Transactional
-    public Curso modificar(String id, String nombre, String dias, String turno, Profesor profesor, List<Alumno> alumnos) throws Exception {
+    public Curso modificar(String id, String nombre, String dias, String turno) throws Exception {
 
         Curso modCurso = CursoRepository.findById(id).get();
 
@@ -48,8 +46,6 @@ public class CursoService {
             modCurso.setNombre(nombre);
             modCurso.setDias(dias);
             modCurso.setTurno(turno);
-            modCurso.setAlumnos(alumnos);
-            modCurso.setProfesor(profesor);
             return CursoRepository.save(modCurso);
         } else {
             throw new Exception("El curso no se encuentra en la base de datos");

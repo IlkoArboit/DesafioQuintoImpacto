@@ -55,7 +55,7 @@ public class ProfesorController {
     @GetMapping("/ModificarProfesor/{id}")
     public String modificarProfesor(@PathVariable String id, ModelMap modelo){
         
-        modelo.put("Profesor", ProfesorService.buscarPorID(id));
+        modelo.put("profesor", ProfesorService.buscarPorID(id));
 
         return "ModificarProfesor.html";
     }
@@ -84,4 +84,5 @@ public class ProfesorController {
             return "ModificarProfesor.html";
         }
     }
+
 }

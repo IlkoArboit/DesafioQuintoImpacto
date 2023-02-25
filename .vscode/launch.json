@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-CrudBackendApplication<CRUD_backend>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "gestion.CRUD_backend.CrudBackendApplication",
+            "projectName": "CRUD_backend",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

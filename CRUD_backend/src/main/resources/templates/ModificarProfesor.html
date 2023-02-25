@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Universidad - Modificar Profesor</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+        integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous" />
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">U</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" th:href="@{/}">Universidad<span class="sr-only">(current)</span></a>
+                    </li>
+                    <!-- <li class="nav-item">
+                        <a class="nav-link" th:href="@{/Libros/}">Titulos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/Autores/}">Autores</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/Editoriales/}">Editoriales</a>
+                    </li> -->
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main style="width: 40%; margin-left: 5%; margin-right: 5%; margin-top: 5%;">
+        <form th:action="@{/Profesores/Modificar/__${profesor.id}__}" method="POST">
+            <input hidden th:value="${id}" name="id">
+            <div class="form-group">
+                <label>Nombre</label><input type="text" class="form-control" name="nombre" placeholder="${profesor.nombre}">
+                <label>Apellido</label><input type="text" class="form-control" name="apellido" placeholder="${profesor.apellido}">
+                <label>DNI</label><input type="number" class="form-control" name="dni" placeholder="${profesor.dni}">
+            </div>
+            <div style="margin-top: 5px;">
+                <div th:if="${error}!=null" class="alert alert-danger" role="alert">
+                    Error al guardar
+                    <p th:text="${error}"></p>
+                </div>
+                <div th:if="${exito}!=null" class="alert alert-success" role="alert">
+                    Guardado exitoso
+                    <p th:text="${exito}"></p>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" action="submit">Guardar</button>
+            <button type="reset" class="btn btn-primary" action="submit">Cancelar</button>
+        </form>
+    </main>
+</body>
+
+</html>
