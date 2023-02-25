@@ -13,40 +13,43 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">U</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item active">
-                        <a class="nav-link" th:href="@{/}">Universidad<span class="sr-only">(current)</span></a>
-                    </li>
-                    <!-- <li class="nav-item">
-                        <a class="nav-link" th:href="@{/Libros/}">Titulos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/Autores/}">Autores</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/Editoriales/}">Editoriales</a>
-                    </li> -->
-                </ul>
-            </div>
+          <a class="navbar-brand" href="#">Universidad</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item active">
+                <a class="nav-link" th:href="@{/}">Inicio <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" th:href="@{/Alumnos}">Alumnos<span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" th:href="@{/Profesores}">Profesores<span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" th:href="@{/Cursos}">Cursos<span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" th:href="@{/Administradores}">Administradores<span class="sr-only">(current)</span></a>
+              </li>
+            </ul>
+          </div>
         </nav>
-    </header>
+      </header> 
 
     <main style="width: 40%; margin-left: 5%; margin-right: 5%; margin-top: 5%;">
         <form th:action="@{/Alumnos/Modificar/__${Alumno.id}__}" method="POST">
             <input hidden th:value="${id}" name="id">
             <div class="form-group">
                 <label>Nombre</label><input type="text" class="form-control" name="nombre"
-                    placeholder="${Alumno.nombre}">
+                    th:placeholder="${Alumno.nombre}">
                 <label>Apellido</label><input type="text" class="form-control" name="apellido"
-                    placeholder="${Alumno.apellido}">
+                    th:placeholder="${Alumno.apellido}">
                 <label>DNI</label><input type="number" class="form-control" name="apellido"
-                    placeholder="${Alumno.dni}">
+                    th:placeholder="${Alumno.dni}">
             </div>
             <div style="margin-top: 5px;">
                 <div th:if="${error}!=null" class="alert alert-danger" role="alert">

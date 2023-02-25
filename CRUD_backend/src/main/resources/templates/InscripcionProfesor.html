@@ -38,11 +38,6 @@
       </header> 
 
     <main style="margin-top: 5%;">
-
-        <div style="margin-left: 5%;">
-            <a th:href="@{/cursos/Crearcurso}" class="btn btn-primary">Cargar nuevo curso</a>
-        </div>
-
         <div style="width: 90%; margin-left: 5%; margin-top: 2%;">
             <table style="text-align: center;" class="table">
                 <thead class="thead-dark">
@@ -50,8 +45,6 @@
                         <th scope="col">Nombre</th>
                         <th scope="col">Turno</th>
                         <th scope="col">Dias</th>
-                        <th scope="col">Profesor</th>
-                        <th scope="col">Acciones</th>
                     </tr>
                 </thead>
                 <tbody th:each="curso : ${cursos}">
@@ -61,13 +54,12 @@
                         <td th:text="${curso.nombre}"></td>
                         <td th:text="${curso.turno}"></td>
                         <td th:text="${curso.dias}"></td>
-                        <td th:text="${curso.profesor}"></td>
                         <td>
                             <div class="btn-group" role="group">
-                                <a th:href="@{/cursos/Modificarcurso/__${curso.id}__}"
-                                    class="btn btn-primary">Modificar</a>
-                                <button th:href="@{/cursos/Eliminar/__${curso.id}__}" type="button"
+                                <button th:if="${curso.profesor.id == idProfesor}" th:href="@{/profesores/DarDeBaja/__${idProfesor}__/__${curso.id}__}" type="button"
                                     class="btn btn-danger">Eliminar</button>
+                                <button th:unless="${curso.profesor.id == idProfesor}" th:href="@{/profesores/inscribir/__${idProfesor}__/__${curso.id}__}" type="button"
+                                    class="btn btn-primary">Inscribir</button>
                             </div>
                         </td>
                     </tr>

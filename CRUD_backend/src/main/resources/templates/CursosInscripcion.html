@@ -20,10 +20,22 @@
             <li class="nav-item active">
               <a class="nav-link" th:href="@{/}">Inicio <span class="sr-only">(current)</span></a>
             </li>
+            <li class="nav-item active">
+              <a class="nav-link" th:href="@{/Alumnos}">Alumnos<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" th:href="@{/Profesores}">Profesores<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" th:href="@{/Cursos}">Cursos<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" th:href="@{/Administradores}">Administradores<span class="sr-only">(current)</span></a>
+            </li>
           </ul>
         </div>
       </nav>
-    </header>
+    </header> 
   
     <main style="margin-top: 5%;">
   
@@ -43,11 +55,16 @@
               <th scope="row" th:text="${curso.id}">
               </th>
               <td th:text="${curso.nombre}"></td>
-              <td th:text="${alumno.dias}"></td>
-              <td th:text="${alumno.turno}"></td>
+              <td th:text="${curso.dias}"></td>
+              <td th:text="${curso.turno}"></td>
               <td>
                 <div class="btn-group" role="group">
-                  <button th:href="@{/alumnos/InscribirseACurso/__${alumno.id}__}" type="button" class="btn btn-danger">Incribirse</button>
+                  <button th:if="${#lists.contains(curso.alumnos, alumno)}"" 
+                  th:href="@{/alumnos/InscribirseACurso/__${alumno.id}__/__${curso.id}__}" 
+                  type="button" class="btn btn-primary">Incribirse</button>
+                  <button th:unless="${#lists.contains(curso.alumnos, alumno)}" 
+                  th:href="@{/alumnos/EliminarCurso/__${alumno.id}__/__${curso.id}__" 
+                  type="button" class="btn btn-danger">Darse de baja</button>
                 </div>
               </td>
             </tr>
